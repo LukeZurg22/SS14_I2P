@@ -27,9 +27,8 @@ Questions I personally don't want to answer.
 
 ## But What If This Program Is Used For Harm / ERP?
 - It's server griefing, or is just generally on average breaking server rules. This can be reported via a-help to your local admin.
-- Harmful can be made ingame anyway without the program. This just makes it easier, but personally I see potential pros outweigh the potential cons.
-- They may call for a possible rewrite of the admin logs panel to display something like colored-ascii in nicer detail.
-- And most of all, i'm not responsible for whatever freakish things you people do with this program.
+- Harmful images can be made ingame anyway without the program. This just makes it easier, but personally I see potential pros outweighing the potential cons.
+- Most importantly of all, i'm not responsible for whatever freakish things you people do with this program.
 Note: This may be a wakeup call to SS14's devs to adjust the Admin Logs to accomodate ASCII images like this. These images can be written, copied, and etc. en masse WITHOUT the program, so it is only a matter of time until it becomes a concern to *someone* out there.
 
 ## Is This Gonna Steal Mah Data?
