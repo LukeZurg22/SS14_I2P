@@ -11,10 +11,10 @@
 - Executable Name (Linux):   SS14_I2P
 
 ## Program Purpose
-To allow one a sufficient UI to facilitate the conversion of pixel art into ASCII form for convienent usage in the game "Space Station 14" I've met people whom relied on hand-making ASCII images, which involves a lot of tedium and headache. This program aims to aleviate that. I otherwise made this program because I could, and wanted to contribute to SS14's community in a way that benefits it, even if its a small addition.
+To provide one a sufficient UI to facilitate the conversion of pixel art into ASCII form for convienent usage in the game "Space Station 14" I've met people whom relied on hand-making ASCII images, which involves a lot of tedium and headache that this program aims to aleviate. I otherwise made this program because I could, and wanted to contribute to SS14's community in a way that benefits it, even if its a small addition.
 
 ## Project Goal
-My goal for this program is to share it within the SS14 community as possible. Feel free share with as many people you think would find use out of it.
+My goal for this program is to share it within the SS14 community as much as possible. Feel free to share with as many people you think would find use out of it.
 
 ## Limitations
 - Honestly, not thoroughly tested.
@@ -24,7 +24,7 @@ My goal for this program is to share it within the SS14 community as possible. F
 - **If the resulting paper image is jagged / indented** that's because the image is too big, and SS14 automatically indents it on the Paper. It's a SS14 issue with your UI. Best ways to fix are either to make the image itself smaller, or adjust the width of the paper.
 
 ## Alternatives
-I wont lie, there are programs like this. Namely python scripts, which is what inspired me to make this. But i found those scripts  not as nice to use as a neat, clean UI, which there wasn't any as far as I could find. Nowhere I looked had one, so I made one. 
+I wont lie, there are programs like this. Namely python scripts but i found those scripts not as nice to use as a neat, which is what inspired me to make a program with a clean UI that otherwise didn't exist anywhere else that I could find.
 
 ---
 
