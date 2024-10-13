@@ -10,6 +10,8 @@
 - Executable Name (Windows): SS14_I2P.exe
 - Executable Name (Linux):   SS14_I2P
 
+*Please Note: If you intend to download and use this program casually, I'd advise using the latest stable **Release** version rather than cloning the source code.*
+
 ## Program Purpose
 To provide one a sufficient UI to facilitate the conversion of pixel art into ASCII form for convienent usage in the game "Space Station 14" I've met people whom relied on hand-making ASCII images, which involves a lot of tedium and headache that this program aims to aleviate. I otherwise made this program because I could, and wanted to contribute to SS14's community in a way that benefits it, even if its a small addition.
 
