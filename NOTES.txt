@@ -7,7 +7,6 @@ so you'd just- infact I've done it for the CC notes
 Basically color tags dont need ending tags, but putting an ending tag later breaks it. So an option to
 shorten the document input at the cost of being unable to accurately control text color will be needed.
 
-
 -----------------------------------------POSSIBLE UI ADDITION
 I may be able to implement additional text witchcraft with CSS and whatnot,
 but thats something a bit extreme for now.
@@ -16,14 +15,11 @@ You can have any color out of 0,0,0,0 to 255,255,255,255, so a a byte^4's worth 
 But SS14 only seems to cope with so many different-colored squares at a time. Too many tags means too much of the document is filled.
 Printing the .txt document circumvents most of the text limit!
 The large files you send still prints, but is cut off by the paper, which may change size.
-
 -----------------------------------------WARNING ABOUT SIZE
 UI scales at 75% and 200% while extreme, will add a significant reduction of
 -3 and -2 pixel max on standard paper respectively while also adding vertical whitespace between chars.
 While 100-125-150% dont have vertical whitespace but do have a reduction of 0-0-0.5 respectively
 -----------------------------------------TO MAKE ADDITIONS WITH
-I'll make a nice box + a button for easy copy and paste though
-So a text file wont even be needed.
-BUT I could still make it savable to a text file, just in case one wanted to save it for later, or for printing.
-Have URL update according to image uploaded.
 Toggle between Endtag & Tagless modes.
+Add black & white option
+Fix it so that the system colors / theme does not do anything to the UI. Keep it black, keep it simple.
