@@ -21,3 +21,5 @@ UI scales at 75% and 200% while extreme, will add a significant reduction of
 While 100-125-150% dont have vertical whitespace but do have a reduction of 0-0-0.5 respectively
 -----------------------------------------TO MAKE ADDITIONS WITH
 Toggle between Endtag & Tagless modes.
+Add black & white option
+Fix it so that the system colors / theme does not do anything to the UI. Keep it black, keep it simple.
