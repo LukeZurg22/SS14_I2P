@@ -97,7 +97,7 @@ namespace SS14_I2P.Views
             await BrieflyRecontentAsync(ClipboardButton, "Copied!");
         }
 
-        public async Task BrieflyRecontentAsync(ContentControl? ctrl, string message)
+        public static async Task BrieflyRecontentAsync(ContentControl? ctrl, string message)
         {
             string? prev_message = ctrl.Content.ToString();
             ctrl.Content = message;
