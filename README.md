@@ -26,7 +26,7 @@ My goal for this program is to share it within the SS14 community as much as pos
 - **If the resulting paper image is jagged / indented** that's because the image is too big, and SS14 automatically indents it on the Paper. It's a SS14 issue with your UI. Best ways to fix are either to make the image itself smaller, or adjust the width of the paper.
 
 ## Alternatives
-I wont lie, there are programs like this. Namely python scripts but i found those scripts not as nice to use as a neat, which is what inspired me to make a program with a clean UI that otherwise didn't exist anywhere else that I could find.
+I wont lie, there are programs like this. Namely python scripts but i found those scripts not very easy to use. They're what inspired me to make a program with a clean UI that otherwise didn't exist anywhere else that I could find.
 
 ---
 
