@@ -47,7 +47,7 @@
                 </TextBox>
                 <ToggleButton Grid.Row="2" Name="Button_EndTags" HorizontalAlignment="Center"
                               Click="Button_EndTags_OnClick">
-                    Ignore End-Tags
+                    Trim End-Tags
                 </ToggleButton>
                 <TextBlock Grid.Row="2" HorizontalAlignment="Left" Text="Character Count:" Name="Text_CharCount"/>
                 <TextBlock Text="By LukeZurg22"
