@@ -8,7 +8,7 @@ using SS14_I2P.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
+using Avalonia.Interactivity;
 using Path = System.IO.Path;
 
 namespace SS14_I2P.Views
@@ -19,7 +19,8 @@ namespace SS14_I2P.Views
         public const string char_black = "██";
         public const string color_open = "[color={0}]";
         public const string color_close = "[/color]";
-        private ReadImage read_image;
+        private ReadImage? read_image;
+        private string last_known_folder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
 
         public MainWindow()
         {
@@ -34,23 +35,27 @@ namespace SS14_I2P.Views
             MimeTypes = ["image/*"]
         };
 
-        private async void Upload_Image_Clicked(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        private async void Upload_Image_Clicked(object? sender, RoutedEventArgs args)
         {
-            var image = (await GetImage())[0];
-            if (image == null)
+            var selectedImages = await GetImage();
+            if (selectedImages.Length == 0)
                 return;
-            read_image = new(image);
+            
+            var image = selectedImages[0];
+            read_image = new ReadImage(image);
             ProvidedPathBox.Text = image;
             UploadedImageBox.Source = new Bitmap(image);
             ASCIIOutputBox.Text = read_image.GetText();
         }
 
-        string last_known_folder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-
-        async Task<string[]>? GetImage()
+        private async Task<string[]> GetImage()
         {
-            var storage_provider = GetTopLevel(this).StorageProvider;
-            var well_known_folder = await storage_provider.TryGetFolderFromPathAsync(last_known_folder);
+            TopLevel? toplevel = GetTopLevel(this);
+            if (toplevel == null)
+                return [];
+
+            IStorageProvider storage_provider = toplevel.StorageProvider;
+            IStorageFolder? well_known_folder = await storage_provider.TryGetFolderFromPathAsync(last_known_folder);
 
             // Check if the well-known folder was retrieved successfully
             if (well_known_folder == null)
@@ -69,20 +74,22 @@ namespace SS14_I2P.Views
 
 
             // If the result is not null, extract the file paths
-            if (file != null && file.Count > 0)
-            {
-                var path = file.Select(file => file.Path.LocalPath.ToString()).ToArray();
-                last_known_folder = Path.GetDirectoryName(path[0]);
-                return path;
-            }
+            if (file.Count <= 0)
+                return [];
 
-            return null;
+            var path = file.Select(storageFile => storageFile.Path.LocalPath.ToString()).ToArray();
+
+            var lastDirectory = Path.GetDirectoryName(path[0]);
+            if (lastDirectory != null)
+                last_known_folder = lastDirectory;
+
+            return path;
         }
 
         #region Button Events
+
         private async void Save_To_File_Clicked(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
-            
             read_image.Print();
             await BrieflyRecontentAsync(SaveButton, "Saved!");
         }
@@ -92,7 +99,7 @@ namespace SS14_I2P.Views
             await Dispatcher.UIThread.InvokeAsync(async () =>
             {
                 await Clipboard.SetTextAsync(ASCIIOutputBox.Text
-);
+                );
             });
             await BrieflyRecontentAsync(ClipboardButton, "Copied!");
         }
@@ -103,8 +110,8 @@ namespace SS14_I2P.Views
             ctrl.Content = message;
             await Task.Delay(3000); // Wait for 3 seconds (3000 ms)
             ctrl.Content = prev_message;
-
         }
+
         #endregion
     }
 }
