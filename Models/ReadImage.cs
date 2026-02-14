@@ -9,13 +9,15 @@ using System.IO;
 using System.Text;
 using SS14_I2P.Views;
 
+// ReSharper disable CollectionNeverQueried.Local
+
 namespace SS14_I2P.Models
 {
-    public struct Dimensions(int x, int y)
+    public readonly struct Dimensions(int x, int y)
     {
-        public int WIDTH { get; set; } = x;
-        public int HEIGHT { get; set; } = y;
-        public readonly override string ToString() => $"({WIDTH}, {HEIGHT})";
+        public int WIDTH { get; } = x;
+        public int HEIGHT { get; } = y;
+        public override string ToString() => $"({WIDTH}, {HEIGHT})";
     }
 
     internal class ReadImage
@@ -29,24 +31,16 @@ namespace SS14_I2P.Models
         private readonly StringBuilder add_text = new();
         private readonly StringBuilder preview = new();
 
-
-        public ReadImage(string img_path, bool cut_transparent_borders)
+        public ReadImage(string imagePath)
         {
-            IMAGE_PATH = img_path;
-            TEXT_PATH = img_path + "_output.txt";
-            Convert(cut_transparent_borders);
-        }
-        public ReadImage(string img_path)
-        {
-            IMAGE_PATH = img_path;
-            TEXT_PATH = img_path + "_output.txt";
-            Convert(false);
+            IMAGE_PATH = imagePath;
+            TEXT_PATH = imagePath + "_output.txt";
         }
 
-        void Convert(bool cut_transparent_borders)
+        public void Convert(bool cutTransparentBorders = false, bool ignoreEndTags = false)
         {
             var image_data = GetImageData(IMAGE_PATH);
-            if (cut_transparent_borders == false)
+            if (cutTransparentBorders == false)
             {
                 DIMENSIONS = new Dimensions(image_data.GetLength(0), image_data.GetLength(1));
                 IMAGE_MASK = new bool[DIMENSIONS.WIDTH, DIMENSIONS.HEIGHT];
@@ -65,12 +59,12 @@ namespace SS14_I2P.Models
                 }
             }
 
-            BuildAsciiImage(image_data);
-
+            text.Clear();
+            BuildAsciiImage(image_data, ignoreEndTags);
         }
 
-
-        private void BuildAsciiImage(int[,] image_data)    /// [WARN] Requires image dimensions on the X and Y parts of the plane.
+        /// Requires image dimensions on the X and Y parts of the plane.
+        private void BuildAsciiImage(int[,] image_data, bool ignoreEndTags)
         {
             string previous_color = "None";
 
@@ -78,18 +72,15 @@ namespace SS14_I2P.Models
             {
                 for (int x = 0; x < DIMENSIONS.WIDTH; x++)
                 {
-                    var pixel = Color.FromArgb(image_data[x, y]); // Get Pixel Color
+                    Color pixel = Color.FromArgb(image_data[x, y]); // Get Pixel Color
 
-                    if (pixel.A == 0)
-                        add_text.Clear().Append(MainWindow.char_transparent);
-                    else
-                        add_text.Clear().Append(MainWindow.char_black);
+                    add_text.Clear().Append(pixel.A == 0 ? MainWindow.char_transparent : MainWindow.char_black);
 
                     var color_hex = $"{pixel.ToHex()}";
 
                     if (!color_hex.Equals(previous_color))
                     {
-                        if (!previous_color.Equals("None"))
+                        if (!previous_color.Equals("None") && !ignoreEndTags)
                         {
                             text.Append(MainWindow.color_close);
                         }
@@ -102,25 +93,24 @@ namespace SS14_I2P.Models
                     {
                         text.Append(add_text);
                     }
+
                     preview.Append(add_text);
                 }
+
                 text.Append('\n');
                 preview.Append('\n');
             }
-            if (!previous_color.Equals("None"))
-            {
-                text.Append(MainWindow.color_close).Append('\n'); // Close the last markup tag if we opened one
-            }
 
+            if (previous_color.Equals("None"))
+                return;
+            
+            if (!ignoreEndTags)
+                text.Append(MainWindow.color_close);
+            
+            text.Append('\n'); // Close the last markup tag if we opened one
         }
 
-        public ReadImage Print()
-        {
-            SpitToFile();
-            return this;
-        }
-
-        void SpitToFile()
+        public void Print()
         {
             // Using StreamWriter to write the string to the file
             using (StreamWriter writer = new(TEXT_PATH, false)) // 'false' means overwrite the file
@@ -131,7 +121,7 @@ namespace SS14_I2P.Models
             Debug.WriteLine("File written successfully!");
         }
 
-        private static unsafe int[,] GetImageData(string path)
+        private static int[,] GetImageData(string path)
         {
             if (path == null)
                 throw new InvalidOperationException("Path not provided to GetImageData().");
@@ -139,7 +129,7 @@ namespace SS14_I2P.Models
             // Load file meta data with FileInfo
             Debug.WriteLine($"The path \"{path}\" is procured.");
 
-            using var fileStream = File.OpenRead(path);
+            using FileStream fileStream = File.OpenRead(path);
             using var bitmap = new Avalonia.Media.Imaging.Bitmap(fileStream);
 
             // Verify pixel size
@@ -158,14 +148,15 @@ namespace SS14_I2P.Models
                 alphaFormat: AlphaFormat.Opaque);
 
             // Copy the original bitmap to the WriteableBitmap
-            using (var context = writeableBitmap.Lock())
+            using (writeableBitmap.Lock())
             {
-                bitmap.CopyPixels(writeableBitmap.Lock(), AlphaFormat.Opaque); // Draw original bitmap into WriteableBitmap
+                bitmap.CopyPixels(writeableBitmap.Lock(),
+                    AlphaFormat.Opaque); // Draw original bitmap into WriteableBitmap
             }
 
 
-            using var fb = writeableBitmap.Lock();  // Access the pixel data
-            IntPtr pixelData = fb.Address;          // Getting Pointer
+            using ILockedFramebuffer fb = writeableBitmap.Lock(); // Access the pixel data
+            IntPtr pixelData = fb.Address; // Getting Pointer
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
@@ -179,28 +170,21 @@ namespace SS14_I2P.Models
                     byte red = Marshal.ReadByte(pixelData, index + 2);
                     byte alpha = Marshal.ReadByte(pixelData, index + 3);
 
-                    ///Debug.WriteLine($"{red} {green} {blue} {alpha}");
+                    //Debug.WriteLine($"{red} {green} {blue} {alpha}");
 
                     // Store as an integer (ARGB format)
                     image_data[x, y] = (alpha << 24) | (red << 16) | (green << 8) | blue;
                 }
             }
+
             return image_data;
         }
-        static int ColorToARGB(byte alpha, byte red, byte green, byte blue)
-        {
-            // Combine components into a single ARGB integer
-            return (alpha << 24) | (red << 16) | (green << 8) | blue;
-        }
 
-        internal string? GetText() => text.ToString();
-        
-    }
+        /// Combines components into a single ARGB integer
+        private static int ColorToARGB(byte alpha, byte red, byte green, byte blue) =>
+            (alpha << 24) | (red << 16) | (green << 8) | blue;
 
-    public static class ColorExtensions
-    {
-        public static string ToHex(this Color c) => $"#{c.R:X2}{c.G:X2}{c.B:X2}";
-
+        internal string GetText() => text.ToString();
     }
 }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.

@@ -21,7 +21,8 @@ namespace SS14_I2P.Views
         public const string color_close = "[/color]";
         private ReadImage? read_image;
         private string last_known_folder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-
+        private string last_image = "";
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -40,12 +41,25 @@ namespace SS14_I2P.Views
             var selectedImages = await GetImage();
             if (selectedImages.Length == 0)
                 return;
+
+            last_image = selectedImages[0];
+            ProvidedPathBox.Text = last_image;
+            UploadedImageBox.Source = new Bitmap(last_image);
+            read_image = new ReadImage(last_image);
+            UpdateUI();
+        }
+
+        private void UpdateUI()
+        {
+            // Get modifying attribute(s).
+            bool ignoreEndTags = Button_EndTags.IsChecked != null && Button_EndTags.IsChecked.Value;
             
-            var image = selectedImages[0];
-            read_image = new ReadImage(image);
-            ProvidedPathBox.Text = image;
-            UploadedImageBox.Source = new Bitmap(image);
-            ASCIIOutputBox.Text = read_image.GetText();
+            // Convert
+            read_image?.Convert(ignoreEndTags: ignoreEndTags);
+            
+            // Output
+            ASCIIOutputBox.Text = read_image?.GetText();
+            Text_CharCount.Text = $"Character Count: {read_image?.GetText().Length.ToString()}";
         }
 
         private async Task<string[]> GetImage()
@@ -81,38 +95,45 @@ namespace SS14_I2P.Views
 
             var lastDirectory = Path.GetDirectoryName(path[0]);
             if (lastDirectory != null)
+            {
                 last_known_folder = lastDirectory;
+            }
 
             return path;
         }
 
         #region Button Events
 
-        private async void Save_To_File_Clicked(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        private async void Save_To_File_Clicked(object? sender, RoutedEventArgs args)
         {
-            read_image.Print();
+            read_image?.Print();
             await BrieflyRecontentAsync(SaveButton, "Saved!");
         }
 
-        private async void Copy_To_Clip_Clicked(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        private async void Copy_To_Clip_Clicked(object? sender, RoutedEventArgs args)
         {
             await Dispatcher.UIThread.InvokeAsync(async () =>
             {
-                await Clipboard.SetTextAsync(ASCIIOutputBox.Text
-                );
+                if (Clipboard != null) await Clipboard.SetTextAsync(ASCIIOutputBox.Text);
             });
             await BrieflyRecontentAsync(ClipboardButton, "Copied!");
         }
 
-        public static async Task BrieflyRecontentAsync(ContentControl? ctrl, string message)
+        /// Sets a message in a content control and reverts it back.
+        public static async Task BrieflyRecontentAsync(ContentControl contentControl, string message)
         {
-            string? prev_message = ctrl.Content.ToString();
-            ctrl.Content = message;
+            if (contentControl.Content == null)
+                return;
+
+            string? prev_message = contentControl.Content.ToString();
+            contentControl.Content = message;
             await Task.Delay(3000); // Wait for 3 seconds (3000 ms)
-            ctrl.Content = prev_message;
+            contentControl.Content = prev_message;
         }
 
         #endregion
+
+        private void Button_EndTags_OnClick(object? sender, RoutedEventArgs e) => UpdateUI();
     }
 }
 #pragma warning restore IDE0051 // Remove unused private members
