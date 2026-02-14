@@ -9,109 +9,87 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="SS14_I2P">
 
-	<Design.DataContext>
-		<!-- This only sets the DataContext for the previewer in an IDE,
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-		<vm:MainWindowViewModel/>
-	</Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
 
-	<Panel Background="Beige">
-		<Grid Margin="10,10,10,10" Background="White">
-			<!--Buttons Column-->
-			<Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="1">
-				<Button Content="Image --> Upload"
-						HorizontalAlignment="Center"
-						Click="Upload_Image_Clicked" MinWidth="137">
-				</Button>
-				<Button x:Name="SaveButton" Content="Save ASCII To File"
-						HorizontalAlignment="Center"
-						Grid.Row="1" Click="Save_To_File_Clicked">
-				</Button>
-				<Button x:Name="ClipboardButton"
-						Content="{Binding ClipboardSaveButtonContent}"
-						HorizontalAlignment="Center"
-						Grid.Row="2" Click="Copy_To_Clip_Clicked">
-				</Button>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition/>
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition/>
-					<RowDefinition/>
-					<RowDefinition/>
-					<RowDefinition/>
-				</Grid.RowDefinitions>
-			</Grid>
+    <Panel Background="Beige">
+        <Grid Margin="10,10,10,10" Background="White" ColumnDefinitions="auto,*" RowDefinitions="auto,auto">
+            <!--Buttons Column-->
+            <Grid Grid.Row="0" Grid.Column="1" RowDefinitions="*,*,*,*">
+                <Button Content="Image --> Upload"
+                        HorizontalAlignment="Center"
+                        Click="Upload_Image_Clicked" MinWidth="137">
+                </Button>
+                <Button x:Name="SaveButton" Content="Save ASCII To File"
+                        HorizontalAlignment="Center"
+                        Grid.Row="1" Click="Save_To_File_Clicked">
+                </Button>
+                <Button x:Name="ClipboardButton"
+                        Content="{Binding ClipboardSaveButtonContent}"
+                        HorizontalAlignment="Center"
+                        Grid.Row="2" Click="Copy_To_Clip_Clicked">
+                </Button>
+            </Grid>
 
-			<!--Text Block and URL-->
-			<Grid >
-				<TextBlock Text="{Binding Greeting}"
-							HorizontalAlignment="Center"
-							VerticalAlignment="Center">
-				</TextBlock>
-				<TextBox x:Name="ProvidedPathBox" Text="{Binding Provided_Path}"
-						 HorizontalAlignment="Center"
-						 VerticalAlignment="Center" MaxWidth="600"
-						 Grid.Row="1">
-				</TextBox>
-				<TextBlock Text="By LukeZurg22"
-							HorizontalAlignment="Center" VerticalAlignment="Center"
-							Grid.Row="3" FontSize="8" FontStyle="Italic">
-				</TextBlock>
+            <!--Text Block and URL-->
+            <Grid Grid.Row="0" Grid.Column="0" RowDefinitions="*,*,*,*">
+                <TextBlock Text="{Binding Greeting}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center">
+                </TextBlock>
+                <TextBox x:Name="ProvidedPathBox" Text="{Binding Provided_Path}"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center" MaxWidth="600"
+                         Grid.Row="1">
+                </TextBox>
+                <ToggleButton Grid.Row="2" Name="Button_EndTags" HorizontalAlignment="Center"
+                              Click="Button_EndTags_OnClick">
+                    Trim End-Tags
+                </ToggleButton>
+                <TextBlock Grid.Row="2" HorizontalAlignment="Left" Text="Character Count:" Name="Text_CharCount"/>
+                <TextBlock Text="By LukeZurg22"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                           Grid.Row="3" FontSize="8" FontStyle="Italic">
+                </TextBlock>
 
-				<Grid.RowDefinitions>
-					<RowDefinition/>
-					<RowDefinition/>
-					<RowDefinition/>
-				</Grid.RowDefinitions>
-			</Grid>
+            </Grid>
 
-			<!--Guide-->
-			<StackPanel Spacing="5" Grid.Row="1" Grid.Column="1" Background="AntiqueWhite" Margin="10,10,10,200">
-				<TextBlock Text="GUIDES" FontWeight="Black" FontSize="20" HorizontalAlignment="Center" Margin="0,5,0,0"/>
-				<TextBlock Text="TYPE: PIXELS WIDE" FontWeight="Bold" FontSize="13" HorizontalAlignment="Center" Margin="0,5,0,0"/>
-				<TextBlock Text="Office Paper: 19" FontSize="13" HorizontalAlignment="Center" Margin="0,5,0,0"/>
-				<TextBlock Text="Normal Paper: 21" FontSize="13" HorizontalAlignment="Center"/>
-				<TextBlock Text="Captain's Paper: 18" FontSize="13" HorizontalAlignment="Center"/>
-				<TextBlock Text="USAGE GUIDE" FontWeight="Bold" FontSize="13" HorizontalAlignment="Center" Margin="0,5,0,0"/>
-				<TextBlock Text="Image -> Upload and select bitmap image to upload. Printing text files allows for somewhat more space than using copy and paste."
-						   TextWrapping="Wrap" FontSize="13" HorizontalAlignment="Left" Margin="5,5,0,0">
-				</TextBlock>
-				<TextBlock Text="Do not use too many colors spread over seperate pixels. Conjoined pixels of identical colors is fine, but too much text will not paste into SS14 paper."
-						   TextWrapping="Wrap" FontSize="13" HorizontalAlignment="Left" Margin="5,5,0,0">
-				</TextBlock>
-			</StackPanel>
+            <!--Guide-->
+            <StackPanel Spacing="5" Grid.Row="1" Grid.Column="1" Background="AntiqueWhite" Margin="10,10,10,200">
+                <TextBlock Text="GUIDES" FontWeight="Black" FontSize="20" HorizontalAlignment="Center" Margin="0,5,0,0" />
+                <TextBlock Text="TYPE: PIXELS WIDE" FontWeight="Bold" FontSize="13" HorizontalAlignment="Center"
+                           Margin="0,5,0,0" />
+                <TextBlock Text="Office Paper: 19" FontSize="13" HorizontalAlignment="Center" Margin="0,5,0,0" />
+                <TextBlock Text="Normal Paper: 21" FontSize="13" HorizontalAlignment="Center" />
+                <TextBlock Text="Captain's Paper: 18" FontSize="13" HorizontalAlignment="Center" />
+                <TextBlock Text="USAGE GUIDE" FontWeight="Bold" FontSize="13" HorizontalAlignment="Center"
+                           Margin="0,5,0,0" />
+                <TextBlock
+                    Text="Image -> Upload and select bitmap image to upload. Printing text files allows for somewhat more space than using copy and paste."
+                    TextWrapping="Wrap" FontSize="13" HorizontalAlignment="Left" Margin="5,5,0,0">
+                </TextBlock>
+                <TextBlock
+                    Text="Do not use too many colors spread over separate pixels. Conjoined pixels of identical colors is fine, but too much text will not paste into SS14 paper."
+                    TextWrapping="Wrap" FontSize="13" HorizontalAlignment="Left" Margin="5,5,0,0">
+                </TextBlock>
+            </StackPanel>
 
-			<!--Image & Output Panels-->
-			<Grid Background="Beige" Grid.Row="1" Grid.RowSpan="0" Margin="0,10,0,0">
-				<Panel Background="WhiteSmoke" Width="300" Height="300" Grid.Column="0">
-					<Image x:Name="UploadedImageBox" Stretch="Uniform">
-					</Image>
-				</Panel>
-				<Panel Background="AliceBlue" Width="300" Height="300" Grid.Column="1">
-					<TextBox x:Name="ASCIIOutputBox" Text="output will appear here"
-							 AcceptsReturn="True" TextWrapping="Wrap">
-					</TextBox>
-				</Panel>
-
-
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition/>
-					<ColumnDefinition/>
-				</Grid.ColumnDefinitions>
-			</Grid>
-
-
-
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="auto"/>
-				<ColumnDefinition/>
-			</Grid.ColumnDefinitions>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="auto"/>
-				<RowDefinition Height="auto"/>
-			</Grid.RowDefinitions>
-		</Grid>
-
-	</Panel>
+            <!--Image & Output Panels-->
+            <Grid Background="Beige" Grid.Row="1" Grid.RowSpan="0" Grid.Column="0" Margin="0,10,0,0"
+                  ColumnDefinitions="*,*">
+                <Panel Background="WhiteSmoke" Width="300" Height="300" Grid.Column="0">
+                    <Image x:Name="UploadedImageBox" Stretch="Uniform">
+                    </Image>
+                </Panel>
+                <Panel Background="AliceBlue" Width="300" Height="300" Grid.Column="1">
+                    <TextBox x:Name="ASCIIOutputBox" Text="output will appear here"
+                             AcceptsReturn="True" TextWrapping="Wrap">
+                    </TextBox>
+                </Panel>
+            </Grid>
+        </Grid>
+    </Panel>
 </Window>
