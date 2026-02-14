@@ -8,7 +8,6 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Text;
 using SS14_I2P.Views;
-using System.Linq;
 
 namespace SS14_I2P.Models
 {
@@ -16,7 +15,7 @@ namespace SS14_I2P.Models
     {
         public int WIDTH { get; set; } = x;
         public int HEIGHT { get; set; } = y;
-        public override readonly string ToString() => $"({WIDTH}, {HEIGHT})";
+        public readonly override string ToString() => $"({WIDTH}, {HEIGHT})";
     }
 
     internal class ReadImage

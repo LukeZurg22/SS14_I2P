@@ -1,9 +1,4 @@
-﻿using Avalonia.Media;
-using System.Threading.Tasks;
-using System;
-using System.Drawing;
-
-namespace SS14_I2P.ViewModels
+﻿namespace SS14_I2P.ViewModels
 {
     public partial class MainWindowViewModel : ViewModelBase
     {

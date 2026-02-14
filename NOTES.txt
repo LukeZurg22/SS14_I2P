@@ -10,6 +10,20 @@ shorten the document input at the cost of being unable to accurately control tex
 -----------------------------------------POSSIBLE UI ADDITION
 I may be able to implement additional text witchcraft with CSS and whatnot,
 but thats something a bit extreme for now.
+
+Formatting Options
+	Bold: Use [b] and [/b] tags to make text bold.
+	Italic: Use [i] and [/i] tags to italicize text.
+	Underline: Use [u] and [/u] tags to underline text.
+	Headers: Use a consistent style for headings, such as font sizes and font-feature-settings.
+
+
+[color=#2e9935ff]◥[bold]N[/bold]◣ [bold]Frontier Outpost Command[/bold][/color]
+[color=#2e9935ff]‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾[/color]
+
+[head=#]HEADER-TITLE[/head]
+
+
 -----------------------------------------COLOR LIMITATIONS
 You can have any color out of 0,0,0,0 to 255,255,255,255, so a a byte^4's worth of free choices.
 But SS14 only seems to cope with so many different-colored squares at a time. Too many tags means too much of the document is filled.
@@ -24,3 +38,10 @@ Toggle between Endtag & Tagless modes.
 Add black & white option
 Fix it so that the system colors / theme does not do anything to the UI. Keep it black, keep it simple.
 Add some more documentation to the code. Make it neat, make it pretty.
+
+
+
+I noticed SS14 has a criminal lack of formatting guides for writing. I took a page (pun intended) out of the writers club group here and am going to include some formatting guides to the program as addition.
+
+Maybe a way to dynamically format text like an IDE or Markdown document would be neat. 
+
