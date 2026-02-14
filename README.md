@@ -39,8 +39,8 @@ Questions I personally don't want to answer.
 - Most importantly of all, i'm not responsible for whatever freakish things you people do with this program.
 Note: This may be a wakeup call to SS14's devs to adjust the Admin Logs to accomodate ASCII images like this. These images can be written, copied, and etc. en masse WITHOUT the program, so it is only a matter of time until it becomes a concern to *someone* out there.
 
-## Is This Gonna Steal My Data?
-No. This doesn't even connect to the internet in any way, and it has no drawbacks besides the fact it takes up a tiny bit of disk space, like *any other program does*.
+## Will This Steal My Data?
+No. This doesn't connect to the internet in any way, and it has no drawbacks besides the fact it takes up a tiny bit of disk space, like *any other program*.
 
-## About NOTES.txt
-Those are personal notes I put in every project of mine. It's like a todo list, and a place to dump my thoughts about the program during development and to formalize a plan without actually using UML.
+## What is NOTES.txt?
+Personal notes I put in every project of mine. It's like a todo list, and a place to dump my thoughts about the program during development and to organize a plan without industry-grade applications.
