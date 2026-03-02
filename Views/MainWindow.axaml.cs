@@ -6,7 +6,9 @@ using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using SS14_I2P.Models;
 using System;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Avalonia.Interactivity;
 using Path = System.IO.Path;
@@ -20,9 +22,10 @@ namespace SS14_I2P.Views
         public const string color_open = "[color={0}]";
         public const string color_close = "[/color]";
         private ReadImage? read_image;
+        private readonly string program_file = Path.Combine(AppContext.BaseDirectory, "program_data.txt");
         private string last_known_folder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
         private string last_image = "";
-        
+
         public MainWindow()
         {
             InitializeComponent();
@@ -41,8 +44,7 @@ namespace SS14_I2P.Views
             var selectedImages = await GetImage();
             if (selectedImages.Length == 0)
                 return;
-
-            last_image = selectedImages[0];
+            
             ProvidedPathBox.Text = last_image;
             UploadedImageBox.Source = new Bitmap(last_image);
             read_image = new ReadImage(last_image);
@@ -53,10 +55,10 @@ namespace SS14_I2P.Views
         {
             // Get modifying attribute(s).
             bool ignoreEndTags = Button_EndTags.IsChecked != null && Button_EndTags.IsChecked.Value;
-            
+
             // Convert
             read_image?.Convert(ignoreEndTags: ignoreEndTags);
-            
+
             // Output
             ASCIIOutputBox.Text = read_image?.GetText();
             Text_CharCount.Text = $"Character Count: {read_image?.GetText().Length.ToString()}";
@@ -64,11 +66,16 @@ namespace SS14_I2P.Views
 
         private async Task<string[]> GetImage()
         {
-            TopLevel? toplevel = GetTopLevel(this);
-            if (toplevel == null)
+            if (File.Exists(program_file))
+            {
+                last_known_folder = await File.ReadAllTextAsync(program_file);
+            }
+            
+            TopLevel? top_level = GetTopLevel(this);
+            if (top_level == null)
                 return [];
 
-            IStorageProvider storage_provider = toplevel.StorageProvider;
+            IStorageProvider storage_provider = top_level.StorageProvider;
             IStorageFolder? well_known_folder = await storage_provider.TryGetFolderFromPathAsync(last_known_folder);
 
             // Check if the well-known folder was retrieved successfully
@@ -91,15 +98,25 @@ namespace SS14_I2P.Views
             if (file.Count <= 0)
                 return [];
 
-            var path = file.Select(storageFile => storageFile.Path.LocalPath.ToString()).ToArray();
-
-            var lastDirectory = Path.GetDirectoryName(path[0]);
-            if (lastDirectory != null)
+            var file_path = file.Select(f => f.Path.LocalPath.ToString()).ToArray();
+            var folder = Path.GetDirectoryName(file_path[0]);
+            if (folder == null)
+                return file_path;
+            
+            last_image = file_path[0];
+            
+            if (File.Exists(program_file))
             {
-                last_known_folder = lastDirectory;
+                await File.WriteAllTextAsync(program_file, folder);
+            }
+            else
+            {
+                StreamWriter fs = File.CreateText(program_file);
+                await fs.WriteAsync(folder);
+                fs.Close();
             }
 
-            return path;
+            return file_path;
         }
 
         #region Button Events
