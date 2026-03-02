@@ -1,22 +1,11 @@
-﻿Small functionality tweak, technically there isnt a need to escape the color tags, no need for [/color] marks at all.
-Allowed me to squeeze more text into the otherwise finnicky limits
-
-Hmnn.. you just assign the new color instead
-so you'd just- infact I've done it for the CC notes
-
-Basically color tags dont need ending tags, but putting an ending tag later breaks it. So an option to
-shorten the document input at the cost of being unable to accurately control text color will be needed.
-
------------------------------------------POSSIBLE UI ADDITION
-I may be able to implement additional text witchcraft with CSS and whatnot,
-but thats something a bit extreme for now.
+﻿-----------------------------------------POSSIBLE UI ADDITIONS
+I may be able to implement additional text tricks for CSS. Currently Out of Scope.
 
 Formatting Options
 	Bold: Use [b] and [/b] tags to make text bold.
 	Italic: Use [i] and [/i] tags to italicize text.
 	Underline: Use [u] and [/u] tags to underline text.
 	Headers: Use a consistent style for headings, such as font sizes and font-feature-settings.
-
 
 [color=#2e9935ff]◥[bold]N[/bold]◣ [bold]Frontier Outpost Command[/bold][/color]
 [color=#2e9935ff]‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾[/color]
@@ -25,7 +14,7 @@ Formatting Options
 
 
 -----------------------------------------COLOR LIMITATIONS
-You can have any color out of 0,0,0,0 to 255,255,255,255, so a a byte^4's worth of free choices.
+You can have any color out of 0,0,0,0 to 255,255,255,255, so a byte^4's worth of free choices.
 But SS14 only seems to cope with so many different-colored squares at a time. Too many tags means too much of the document is filled.
 Printing the .txt document circumvents most of the text limit!
 The large files you send still prints, but is cut off by the paper, which may change size.
@@ -34,14 +23,10 @@ UI scales at 75% and 200% while extreme, will add a significant reduction of
 -3 and -2 pixel max on standard paper respectively while also adding vertical whitespace between chars.
 While 100-125-150% dont have vertical whitespace but do have a reduction of 0-0-0.5 respectively
 -----------------------------------------TO MAKE ADDITIONS WITH
-Toggle between Endtag & Tagless modes.
-Add black & white option
+Add black & white toggle
 Fix it so that the system colors / theme does not do anything to the UI. Keep it black, keep it simple.
 Add some more documentation to the code. Make it neat, make it pretty.
 
-
-
-I noticed SS14 has a criminal lack of formatting guides for writing. I took a page (pun intended) out of the writers club group here and am going to include some formatting guides to the program as addition.
-
+Write a format guide.
 Maybe a way to dynamically format text like an IDE or Markdown document would be neat. 
 
