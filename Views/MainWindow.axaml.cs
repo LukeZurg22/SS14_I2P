@@ -8,7 +8,6 @@ using SS14_I2P.Models;
 using System;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Avalonia.Interactivity;
 using Path = System.IO.Path;
